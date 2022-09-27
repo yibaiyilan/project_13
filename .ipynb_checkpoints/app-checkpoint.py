@@ -5,10 +5,10 @@ import pickle
 import numpy as np
 
 ########### Define your variables ######
-myheading1='California Housing Dataset'
-tabtitle = 'Cali Housing'
-sourceurl = 'https://github.com/ageron/handson-ml2/blob/master/02_end_to_end_machine_learning_project.ipynb'
-githublink = 'https://github.com/plotly-dash-apps/502-california-housing-regression'
+myheading1='Insurance Dataset'
+tabtitle = 'Insurance'
+sourceurl = 'https://github.com/yibaiyilan/project_13/blob/master/analysis/insurance.ipynb'
+githublink = 'https://github.com/yibaiyilan/project_13'
 
 
 ########### open the pickle files ######
@@ -31,51 +31,40 @@ app.title=tabtitle
 
 ########### Set up the layout
 app.layout = html.Div(children=[
-    html.H1('California Neighborhoods'),
-    html.H4('What is the Median Home Value of a Neighborhood?'),
-    html.H6('Features of Neighborhood:'),
+    html.H1('Insurance Charges'),
+    html.H4('What are the insurance charges'),
+    html.H6('Features of the Policy holder:'),
 
     ### Prediction Block
     html.Div(children=[
 
         html.Div([
-                    html.Div('Longitude:'),
-                    dcc.Input(id='longitude', value=-119.5, type='number', min=-124.3, max=-114.3, step=.1),
+                    html.Div('Age:'),
+                    dcc.Input(id='age', value=40, type='number', min=18, max=64, step=1),
 
-                    html.Div('Latitude:'),
-                    dcc.Input(id='latitude', value=35.6, type='number', min=32.5, max=41.95, step=.1),
+                    html.Div('Sex:'),
+                    dcc.Input(id='sex_code', value=1, type='number', min=1, max=2, step=1),
 
-                    html.Div('Housing Median Age:'),
-                    dcc.Input(id='housing_median_age', value=28, type='number', min=1, max=52, step=1),
+                    html.Div('BMI'),
+                    dcc.Input(id='bmi', value=30, type='number', min=16, max=53, step=.1),
 
-                    html.Div('Total Rooms:'),
-                    dcc.Input(id='total_rooms', value=2000, type='number', min=1000, max=3000, step=100),
-
-                    html.Div('Population:'),
-                    dcc.Input(id='population', value=1500, type='number', min=1000, max=35000, step=500),
                 ], className='four columns'),
 
         html.Div([
 
 
-                    html.Div('Households:'),
-                    dcc.Input(id='households', value=1000, type='number', min=500, max=6000, step=500),
+                    html.Div('Children'),
+                    dcc.Input(id='children', value=1, type='number', min=0, max=5, step=1),
 
-                    html.Div('Median Home Income:'),
-                    dcc.Input(id='median_income', value=2, type='number', min=1, max=15, step=1),
+                    html.Div('Smoker'),
+                    dcc.Input(id='smoker', value=1, type='number', min=1, max=2, step=1),
 
-                    html.Div('Income Category:'),
-                    dcc.Input(id='income_cat', value=3, type='number', min=1, max=5, step=1),
-
-                    html.Div('Rooms per Household:'),
-                    dcc.Input(id='rooms_per_hhold', value=5, type='number', min=1, max=7, step=1),
-
-                    html.Div('Population per Household:'),
-                    dcc.Input(id='pop_per_household', value=3, type='number', min=1, max=10, step=1),
+                    html.Div('Region'),
+                    dcc.Input(id='region_code', value=1, type='number', min=1, max=4, step=1),
 
                 ], className='four columns'),
         html.Div([
-                    html.H6('Median Home Value (Predicted):'),
+                    html.H6('Insurance Charges (Predicted):'),
                     html.Button(children='Submit', id='submit-val', n_clicks=0,
                                     style={
                                     'background-color': 'red',
@@ -103,9 +92,9 @@ app.layout = html.Div(children=[
                 dcc.Graph(figure=coefs, id='coefs_fig')
                 ], className='twelve columns'),
 
-        html.A('Code on Github', href=githublink),
+        html.A('Code on Github', href=),
         html.Br(),
-        html.A("Data Source", href=sourceurl),
+        html.A("Data Source", href='https://github.com/yibaiyilan/project_13'),
         ], className='twelve columns')
 
 
@@ -114,27 +103,20 @@ app.layout = html.Div(children=[
     Output(component_id='Results', component_property='children'),
     Input(component_id='submit-val', component_property='n_clicks'),
     # regression inputs:
-    State(component_id='longitude', component_property='value'),
-    State(component_id='latitude', component_property='value'),
-    State(component_id='housing_median_age', component_property='value'),
-    State(component_id='total_rooms', component_property='value'),
-    State(component_id='population', component_property='value'),
-    State(component_id='households', component_property='value'),
-    State(component_id='median_income', component_property='value'),
-    State(component_id='income_cat', component_property='value'),
-    State(component_id='rooms_per_hhold', component_property='value'),
-    State(component_id='pop_per_household', component_property='value'),
+    State(component_id='age', component_property='value'),
+    State(component_id='sex_code', component_property='value'),
+    State(component_id='bmi', component_property='value'),
+    State(component_id='children', component_property='value'),
+    State(component_id='smokder', component_property='value'),
+    State(component_id='region_code', component_property='value'),
 )
-def make_prediction(clicks, longitude, latitude, housing_median_age, total_rooms,
-        population, households, median_income, income_cat,
-        rooms_per_hhold, pop_per_household):
+def make_prediction(clicks,age,sex_code,bmi,children,smoker,region_code):
     if clicks==0:
         return "waiting for inputs"
     else:
 
-        inputs=np.array([longitude, latitude, housing_median_age, total_rooms,
-               population, households, median_income, income_cat,
-               rooms_per_hhold, pop_per_household, 0, 0, 0, 0]).reshape(1, -1)
+        inputs=np.array([clicks,age,sex_code,bmi,children,smoker,region_code, 0, 0,
+               0, 0, 0, 0, 0, 0]).reshape(1, -1)
        # note: the 4 zeroes are for missing categories=['INLAND', 'ISLAND', 'NEAR BAY','NEAR OCEAN']
 
        # test with fake inputs

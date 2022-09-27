@@ -54,7 +54,7 @@ app.layout = html.Div(children=[
 
 
                     html.Div('Children'),
-                    dcc.Input(id='children', value=1, type='number', min=0, max=5, step=1),
+                    dcc.Input(id='kid', value=1, type='number', min=0, max=5, step=1),
 
                     html.Div('Smoker'),
                     dcc.Input(id='smoker', value=1, type='number', min=1, max=2, step=1),
@@ -106,21 +106,16 @@ app.layout = html.Div(children=[
     State(component_id='age', component_property='value'),
     State(component_id='sex_code', component_property='value'),
     State(component_id='bmi', component_property='value'),
-    State(component_id='children', component_property='value'),
-    State(component_id='smokder', component_property='value'),
+    State(component_id='kid', component_property='value'),
+    State(component_id='smoker', component_property='value'),
     State(component_id='region_code', component_property='value'),
 )
-def make_prediction(clicks,age,sex_code,bmi,children,smoker,region_code):
+def make_prediction(clicks,age,sex_code,bmi,kid,smoker,region_code):
     if clicks==0:
         return "waiting for inputs"
     else:
 
-        inputs=np.array([age,sex_code,bmi,children,smoker,region_code]).reshape(1, -1)
-       # note: the 4 zeroes are for missing categories=['INLAND', 'ISLAND', 'NEAR BAY','NEAR OCEAN']
-
-       # test with fake inputs
-        # fake = np.array([-122, 37, 40, 2000, 3000, 500, 3, 3, 6, 4, 0, 0, 1, 0]).reshape(1, -1)
-        # std_fake = std_scaler.transform(fake)
+        inputs=np.array([age,sex_code,bmi,kid,smoker,region_code]).reshape(1, -1)
 
         # standardization
         std_inputs = std_scaler.transform(inputs)

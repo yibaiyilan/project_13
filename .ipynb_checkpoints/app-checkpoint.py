@@ -92,9 +92,9 @@ app.layout = html.Div(children=[
                 dcc.Graph(figure=coefs, id='coefs_fig')
                 ], className='twelve columns'),
 
-        html.A('Code on Github', href=),
+        html.A('Code on Github', href=githublink),
         html.Br(),
-        html.A("Data Source", href='https://github.com/yibaiyilan/project_13'),
+        html.A("Data Source", href=sourceurl),
         ], className='twelve columns')
 
 

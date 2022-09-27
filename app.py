@@ -115,7 +115,7 @@ def make_prediction(clicks,age,sex_code,bmi,children,smoker,region_code):
         return "waiting for inputs"
     else:
 
-        inputs=np.array([clicks,age,sex_code,bmi,children,smoker,region_code]).reshape(1, -1)
+        inputs=np.array([age,sex_code,bmi,children,smoker,region_code]).reshape(1, -1)
        # note: the 4 zeroes are for missing categories=['INLAND', 'ISLAND', 'NEAR BAY','NEAR OCEAN']
 
        # test with fake inputs
